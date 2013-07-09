@@ -121,6 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'mediagenerator',
+    'tastypie',
     'south',
     'log',
     # Uncomment the next line to enable the admin:
