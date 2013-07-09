@@ -1,4 +1,5 @@
 Django==1.5
+South==0.8.1
 django-mediagenerator==1.11
 django-tastypie==0.9.15
 git+https://github.com/asermax/backbone-tastypie@master
