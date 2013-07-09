@@ -97,6 +97,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'mediagenerator.middleware.MediaMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -121,6 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'mediagenerator',
+    'backbone_tastypie',
     'tastypie',
     'south',
     'log',
@@ -166,9 +168,21 @@ YUGLIFYCOMPRESSOR_PATH = '/usr/local/bin/yuglify'
 DEV_MEDIA_URL = '/devassets/'
 PRODUCTION_MEDIA_URL = '/assets/'
 
-MEDIA_BUNDLES = ()
+MEDIA_BUNDLES = (
+    (
+        'log/js/feed.js',
+        'log/js/underscore.js',
+        'log/js/backbone.js',
+        'js/backbone-tastypie.js',
+        'log/js/feed.coffee',
+    ),
+    (
+        'log/css/feed.css',
+        'log/css/feed.sass',
+    )
+)
 
 ROOT_MEDIA_FILTERS = {
-        'js': 'melog.mediafilters.yuglifycompressor.YuglifyCompressor',
-        'css': 'melog.mediafilters.yuglifycompressor.YuglifyCompressor',
+    'js': 'melog.mediafilters.yuglifycompressor.YuglifyCompressor',
+    'css': 'melog.mediafilters.yuglifycompressor.YuglifyCompressor',
 }
