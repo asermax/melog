@@ -171,9 +171,13 @@ PRODUCTION_MEDIA_URL = '/assets/'
 MEDIA_BUNDLES = (
     (
         'log/js/feed.js',
+        'log/js/jquery.js',
         'log/js/underscore.js',
         'log/js/backbone.js',
         'js/backbone-tastypie.js',
+        'log/js/pagination.coffee',
+        'log/js/feed/models.coffee',
+        'log/js/feed/collections.coffee',
         'log/js/feed.coffee',
     ),
     (
