@@ -1,12 +1,13 @@
 from django.contrib import auth
-from tastypie import resources, authentication, authorization, fields
+from tastypie import resources, authentication, authorization, fields, \
+    validation
 
-from . import models
+from . import models, forms
 
 
 class PerUserAuthorization(authorization.Authorization):
     def read_list(self, object_list, bundle):
-        return object_list.filter(user=bundle.request.cliente.user)
+        return object_list.filter(user=bundle.request.user)
 
     def read_detail(self, object_list, bundle):
         # Is the requested object owned by the user?
@@ -71,3 +72,4 @@ class LogResource(PerUserResource):
         always_return_data = True
         authentication = authentication.SessionAuthentication()
         authorization = PerUserAuthorization()
+        validation = validation.FormValidation(form_class=forms.LogForm)
