@@ -161,7 +161,10 @@ LOGGING = {
     }
 }
 
-# Configuracion para mediagenerator
+# Tastypie conf
+TASTYPIE_DEFAULT_FORMATS = ['json']
+
+# Mediagenerator conf
 MEDIA_DEV_MODE = True
 YUGLIFYCOMPRESSOR_PATH = '/usr/local/bin/yuglify'
 
@@ -178,6 +181,7 @@ MEDIA_BUNDLES = (
         'log/js/pagination.coffee',
         'log/js/feed/models.coffee',
         'log/js/feed/collections.coffee',
+        'log/js/feed/views.coffee',
         'log/js/feed.coffee',
     ),
     (
