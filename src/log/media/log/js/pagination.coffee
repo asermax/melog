@@ -15,4 +15,4 @@ class Backbone.PaginatedCollection extends Backbone.Collection
         urlparams.order_by = @meta.order_by
 
     extra = if urlparams? then '?' + $.param urlparams else ''
-    @baseUrl + extra
+    @urlRoot + extra
