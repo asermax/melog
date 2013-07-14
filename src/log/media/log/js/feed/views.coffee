@@ -4,8 +4,8 @@ $ ->
     
     initialize: (options) ->
       @subviews = [
-        new LogsView collection: @collection
         new NewLogView collection: @collection
+        new LogsView collection: @collection
       ]
       @collection.bind 'reset', @render, @
 
@@ -35,25 +35,28 @@ $ ->
       values =
         text: @$('#text').val()
 
-      options =
-        wait: true
-        error: (model, xhr, options) =>
-          @showErrors $.parseJSON(xhr.responseText or xhr)['log']
-        success: =>
-          @render()
+      log = new Log values, collection: @collection
 
-      @collection.create values, options
-
-      # regain focus on the text area
-      @focus()
+      if not log.save(null, error: @parseErrors)
+        @showErrors log, log.validationError
 
       # return false to prevent the default behaviour
       false
 
-    showErrors: (errors) ->
-      # limpiamos errores previos
+    addLog: (model) ->
+      @collection.add model, at: 0
+
+      # clean errors and regain focus on the text area
+      @cleanErrors()
+      @focus()
+
+    parseErrors: (model, xhr) =>
+      @showErrors model, $.parseJSON(xhr.responseText or xhr)['log']
+
+    cleanErrors: ->
       @$('.errorlist').remove()
 
+    showErrors: (model, errors) ->
       for field, error of errors
         errorList = $('<ul/>').addClass 'errorlist'
         errorList.append($('<li/>').text error)
