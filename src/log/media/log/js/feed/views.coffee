@@ -4,7 +4,7 @@ $ ->
     
     initialize: (options) ->
       @subviews = [
-        #new LogsView collection: @collection
+        new LogsView collection: @collection
         new NewLogView collection: @collection
       ]
       @collection.bind 'reset', @render, @
@@ -32,21 +32,22 @@ $ ->
         @submit()
 
     submit: ->
-      try
-        values =
-          text: @$('#text').val()
+      values =
+        text: @$('#text').val()
 
-        options =
-          wait: true
-          error: (model, xhr, options) =>
-            @showErrors $.parseJSON(xhr.responseText or xhr)['log']
-          success: =>
-            @render()
+      options =
+        wait: true
+        error: (model, xhr, options) =>
+          @showErrors $.parseJSON(xhr.responseText or xhr)['log']
+        success: =>
+          @render()
 
-        @collection.create values, options
-      catch error
-        console.log error.message
+      @collection.create values, options
 
+      # regain focus on the text area
+      @focus()
+
+      # return false to prevent the default behaviour
       false
 
     showErrors: (errors) ->
@@ -58,6 +59,34 @@ $ ->
         errorList.append($('<li/>').text error)
         @$('#' + field).after errorList
 
+    focus: ->
+      @$('#text').val('').focus()
+
+
+  class LogView extends Backbone.View
+    className: 'log'
+    tagName: 'div'
+    template: _.template $('#log_view_template').html()
+    
+    render: ->
+      @$el.html @template(@model.toJSON())
+      @
+
+  class LogsView extends Backbone.View
+    id: 'logs'
+    tagName: 'div'
+    
+    initialize: (options) ->
+      @collection.bind 'add', @render, @
+
+    render: ->
+      @$el.empty()
+
+      for log in @collection.models
+        logView = new LogView model: log
+        @$el.append logView.render().el
+
+      @
 
   @app = window.app ? {}
   @app.AppView = AppView
